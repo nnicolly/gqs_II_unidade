@@ -1,0 +1,27 @@
+# Caches do Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Banco de dados local (SQLite)
+*.sqlite3
+db.sqlite3
+
+# Ambientes Virtuais
+venv/
+.venv/
+env/
+ENV/
+
+# Configurações de editores/Ambientes de Desenvolvimento (IDEs)
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# Arquivos de sistema operacional
+Thumbs.db
+.DS_Store
