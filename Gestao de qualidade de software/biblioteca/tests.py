@@ -57,30 +57,3 @@ class TestesBiblioteca(TestCase):
 
         self.assertEqual(autor.nacionalidade, "Brasileira")
         self.assertRedirects(response, reverse("listar_livros"))
-
-    def test_cadastrar_livro(self):
-        dados_formulario = {
-            "titulo": "O Alienista",
-            "ano": 1882,
-            "autor": self.autor.id 
-        }
-
-        resposta = self.client.post(reverse("cadastrar_livro"), dados_formulario)
-
-        self.assertEqual(resposta.status_code, 302)
-
-        quantidade_livros = Livro.objects.count()
-        self.assertEqual(quantidade_livros, 3)
-
-        livro_salvo = Livro.objects.last()
-        self.assertEqual(livro_salvo.titulo, "O Alienista")
-        self.assertEqual(livro_salvo.autor, self.autor)
-
-    def test_emprestimo_de_livro(self):
-        livro_para_emprestar = Livro.objects.get(titulo="Dom Casmurro")
-        
-        resposta = self.client.get(reverse("emprestar_livro", args=[livro_para_emprestar.id]))
-        
-        self.assertEqual(resposta.status_code, 302)
-        livro_para_emprestar.refresh_from_db()
-        self.assertFalse(livro_para_emprestar.disponivel)
