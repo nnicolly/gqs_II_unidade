@@ -75,3 +75,12 @@ class TestesBiblioteca(TestCase):
         livro_salvo = Livro.objects.last()
         self.assertEqual(livro_salvo.titulo, "O Alienista")
         self.assertEqual(livro_salvo.autor, self.autor)
+
+    def test_emprestimo_de_livro(self):
+        livro_para_emprestar = Livro.objects.get(titulo="Dom Casmurro")
+        
+        resposta = self.client.get(reverse("emprestar_livro", args=[livro_para_emprestar.id]))
+        
+        self.assertEqual(resposta.status_code, 302)
+        livro_para_emprestar.refresh_from_db()
+        self.assertFalse(livro_para_emprestar.disponivel)

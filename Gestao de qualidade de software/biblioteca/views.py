@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 
 from .models import Autor, Livro
 
@@ -43,3 +43,12 @@ def cadastrar_livro(request):
         return redirect("listar_livros")
         
     return render(request, "biblioteca/cadastrar_livro.html")
+
+def emprestar_livro(request, livro_id):
+    livro = get_object_or_404(Livro, id=livro_id)
+    
+    livro.disponivel = False
+    
+    livro.save()
+    
+    return redirect("listar_livros")
