@@ -1,0 +1,19 @@
+<h1>Cadastrar Autor</h1>
+
+<form method="post">
+    {% csrf_token %}
+
+    <p>
+        <label>Nome:</label>
+        <input type="text" name="nome">
+    </p>
+
+    <p>
+        <label>Nacionalidade:</label>
+        <input type="text" name="nacionalidade">
+    </p>
+
+    <button type="submit">Salvar</button>
+</form>
+
+<a href="{% url 'listar_livros' %}">Voltar</a>

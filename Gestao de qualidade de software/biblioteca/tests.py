@@ -42,20 +42,18 @@ class TestesBiblioteca(TestCase):
         self.assertTemplateUsed(response, "biblioteca/listar_livros.html")
 
 
-    def test_cadastrar_livro(self):
-        dados_formulario = {
-            "titulo": "O Alienista",
-            "ano": 1882,
-            "autor": self.autor.id 
+    def test_cadastro_de_autor_cria_autor_com_sucesso(self):
+        dados = {
+            "nome": "Clarice Lispector",
+            "nacionalidade": "Brasileira"
         }
 
-        resposta = self.client.post(reverse("cadastrar_livro"), dados_formulario)
+        response = self.client.post(reverse("cadastrar_autor"), dados)
 
-        self.assertEqual(resposta.status_code, 302)
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Autor.objects.count(), 2)
 
-        quantidade_livros = Livro.objects.count()
-        self.assertEqual(quantidade_livros, 3)
+        autor = Autor.objects.get(nome="Clarice Lispector")
 
-        livro_salvo = Livro.objects.last()
-        self.assertEqual(livro_salvo.titulo, "O Alienista")
-        self.assertEqual(livro_salvo.autor, self.autor)
+        self.assertEqual(autor.nacionalidade, "Brasileira")
+        self.assertRedirects(response, reverse("listar_livros"))
